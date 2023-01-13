@@ -2,11 +2,15 @@ import { genres } from '../assets/constants';
 import { useState } from 'react';
 import { Error, Loader, SongCard } from '../components';
 import { useGetTopChartsQuery } from '../redux/services/shazamCore';
+import { useDispatch, useSelector } from 'react-redux';
 // eslint-disable-next-line import/named
 
 const Discover = () => {
+  const { activeSong, isPlaying } = useSelector((state) => state.player);
   const { data, isFetching, error } = useGetTopChartsQuery();
   const [genre, setGenre] = useState('Pop');
+  const dispatch = useDispatch();
+
   console.log('error', error);
 
   const genreHandler = (e) => {
@@ -46,9 +50,18 @@ const Discover = () => {
       </div>
 
       {/*content*/}
-      <div className="flex flex-wrap  sm: justify-center gap-8">
+      <div className="flex flex-wrap  justify-center sm:justify-center gap-8">
         {data?.map((song, i) => {
-          return <SongCard key={song} song={song} i={i} />;
+          return (
+            <SongCard
+              data={data}
+              activeSong={activeSong}
+              isPlaying={isPlaying}
+              key={song}
+              song={song}
+              i={i}
+            />
+          );
         })}
       </div>
     </div>

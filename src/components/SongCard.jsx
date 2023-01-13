@@ -1,12 +1,21 @@
 import PlayPause from './PlayPause';
 import { Link } from 'react-router-dom';
-import { useSelector } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
+import { playPause, setActiveSong } from '../redux/features/playerSlice';
 
-const SongCard = ({ song, i }) => {
-  const { activeSong, isPlaying } = useSelector((state) => state.player);
+const SongCard = ({ data, song, isPlaying, activeSong, i }) => {
+  // const { activeSong, isPlaying } = useSelector((state) => state.player);
+  const dispatch = useDispatch();
 
-  const handlePlayClick = () => {};
-  const handlePauseClick = () => {};
+  const handlePlayClick = () => {
+    dispatch(setActiveSong({ data, song, i }));
+    dispatch(playPause(true));
+  };
+  const handlePauseClick = () => {
+    dispatch(playPause(false));
+
+  };
+
   return (
     <div
       className={
@@ -18,10 +27,17 @@ const SongCard = ({ song, i }) => {
           !song?.images?.coverart ? ' bg-white ' : ''
         } w-full shrink-0 h-56 group`}>
         <div
-          className={`absolute inset-0 justify-center items-center bg-black animate-shortFade bg-opacity-50 group-hover:flex ${
-            activeSong?.title === song ? 'flex bg-black bg-opacity70' : 'hidden'
-          }`}>
-          <PlayPause song={song} handlePause={handlePauseClick} handlePlay={handlePlayClick} />
+          className={`absolute inset-0 justify-center items-center bg-black
+           animate-shortFade bg-opacity-50 group-hover:flex ${
+             activeSong?.title === song.title ? 'flex bg-black bg-opacity70' : 'hidden'
+           }`}>
+          <PlayPause
+            activeSong={activeSong}
+            isPlaying={isPlaying}
+            song={song}
+            handlePause={handlePauseClick}
+            handlePlay={handlePlayClick}
+          />
         </div>
         <img className={'h-full aspect-square'} src={song?.images?.coverart} />
       </div>
