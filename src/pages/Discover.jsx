@@ -30,8 +30,8 @@ const Discover = () => {
 
   return (
     <div className="flex flex-col">
-      {/*title with select option option*/}
-      <div className="flex flex-col justify-between items-center sm:flex-row mt-4 mb-10">
+      {/*title with select option */}
+      <div className="flex flex-col justify-between items-center sm:flex-row pt-4 mb-10">
         <h2 className="font-bold text-3xl text-white ">Discover</h2>
         <select
           onChange={genreHandler}
