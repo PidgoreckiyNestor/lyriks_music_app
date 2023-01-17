@@ -14,7 +14,6 @@ const SongCard = ({ data, song, isPlaying, activeSong, i }) => {
   const handlePauseClick = () => {
     dispatch(playPause(false));
   };
-
   return (
     <div
       className={
@@ -45,7 +44,7 @@ const SongCard = ({ data, song, isPlaying, activeSong, i }) => {
           <Link to={`/songs/${song?.key}`}>{song?.title}</Link>
         </p>
         <p className={'text-gray-300 mt-1 text-sm truncate'}>
-          <Link to={song?.artists ? `/artists/${song?.artists[0]?.adamid}` : '/top-artists'}>
+          <Link to={song.artists ? `/artists/${song?.artists[0]?.adamid}` : '/top-artists'}>
             {song?.subtitle}
           </Link>
         </p>

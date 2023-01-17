@@ -26,19 +26,19 @@ export const TopChartCard = ({
       {i + 1}.
     </h3>
     <div className="flex-1 flex flex-row justify-between items-center">
-      <Link to={`/songs/${song.key}`}>
+      <Link to={`/songs/${song?.key}`}>
         <img className="w-20 h-20 cursor-pointer rounded-lg"
              src={song?.images?.coverart}
              alt=""/>
       </Link>
       <div className={'flex-1 flex flex-col justify-center mx-3'}>
-        <Link to={`/songs/${song.key}`}>
+        <Link to={`/songs/${song?.key}`}>
           <p
             className={'text-xl cursor-pointer hover:text-blue-400 font-bold transition-colors duration-200 text-white'}>
             {song?.title}
           </p>
         </Link>
-        <Link to={`/artists/${song.artists[0].adamid}`}>
+        <Link to={song.artists ? `/artists/${song?.artists[0]?.adamid}` : '/top-artists'}>
           <p
             className={'text-base cursor-pointer hover:text-blue-300 transition-colors duration-200 font-bold text-gray-300 mt-1'}>
             {song?.subtitle}
