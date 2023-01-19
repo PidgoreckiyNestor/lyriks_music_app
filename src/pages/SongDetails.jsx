@@ -42,7 +42,7 @@ const SongDetails = () => {
 
   console.log({ songData });
   return (
-    <div className={'flex flex-col py-5'}>
+    <div className={'flex flex-col '}>
       <DetailsHeader songData={songData} />
       <div className={'mb-10'}>
         <h2 className={'text-white text-3xl font-bold'}>Lyrics:</h2>

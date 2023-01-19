@@ -17,9 +17,6 @@ const Discover = () => {
     setGenre(e.target.value);
   };
 
-  console.log({ data });
-  // console.log(shazamCoreApi);
-
   if (isFetching) {
     return <Loader title={'Loading songs...'}/>;
   }
@@ -53,7 +50,7 @@ const Discover = () => {
         </div>
 
         {/*content*/}
-        <div className="flex flex-wrap  justify-center sm:justify-center gap-8">
+        <div className="flex flex-wrap justify-center sm:justify-center gap-8">
           {data?.map((song, i) => {
             return (
               <SongCard
@@ -68,9 +65,8 @@ const Discover = () => {
           })}
         </div>
       </div>
-      <div className={'relative xl:w-1/3'}>
-
-        <div className="xl:fixed ">
+      <div className={'relative flex justify-center xl:basis-2/5'}>
+        <div className="xl:fixed overflow-y-scroll h-full py-10 pb-44 scrollbar-hide ">
           <TopPlay/>
         </div>
       </div>

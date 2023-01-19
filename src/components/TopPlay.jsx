@@ -19,40 +19,66 @@ export const TopChartCard = ({
   handlePlayClick,
   handlePauseClick,
   activeSong,
-}) => (
-  <div className="w-full flex flex-row items-center hover:bg-[#4c426e] py-2 p-4
-  rounded-lg  mb-2">
+  artistId,
+}) => {
+  const { attributes } = song;
+  console.log({ song });
+  return <div className="w-full flex flex-row items-center hover:bg-[#4c426e] py-2 p-4
+  rounded-lg mb-2">
     <h3 className="font-bold text-base text-white mr-3">
       {i + 1}.
     </h3>
     <div className="flex-1 flex flex-row justify-between items-center">
       <Link to={`/songs/${song?.key}`}>
-        <img className="w-20 h-20 cursor-pointer rounded-lg"
-             src={song?.images?.coverart}
-             alt=""/>
+        <div className={'w-20 h-20 md:w-32 md:h-32'}>
+          <img className=" cursor-pointer rounded-lg"
+               src={artistId ? attributes?.artwork.url.replace('{w}', '125').
+                 replace('{h}', '125') : song?.images?.coverart}
+               alt=""/>
+        </div>
       </Link>
       <div className={'flex-1 flex flex-col justify-center mx-3'}>
-        <Link to={`/songs/${song?.key}`}>
-          <p
-            className={'text-xl cursor-pointer hover:text-blue-400 font-bold transition-colors duration-200 text-white'}>
-            {song?.title}
-          </p>
-        </Link>
-        <Link to={song.artists ? `/artists/${song?.artists[0]?.adamid}` : '/top-artists'}>
+
+        {artistId ?
+          <Link to={`/songs/${song?.id}`}>
+            <p className={'text-xl font-bold text-white'}>
+              {song?.attributes?.name}
+            </p>
+          </Link>
+          :
+          <Link to={`/songs/${song?.key}`}>
+            <p
+              className={'text-xl cursor-pointer hover:text-blue-400 font-bold transition-colors duration-200 text-white'}>
+              {song?.title}
+            </p>
+          </Link>
+        }
+
+        <Link to={song.artists
+          ? `/artists/${song?.artists[0]?.adamid}`
+          : '/top-artists'}>
           <p
             className={'text-base cursor-pointer hover:text-blue-300 transition-colors duration-200 font-bold text-gray-300 mt-1'}>
-            {song?.subtitle}
+            {artistId ? song?.attributes?.albumName : song?.subtitle}
           </p>
         </Link>
 
       </div>
     </div>
-    <PlayPause
-      song={song} handlePlay={handlePlayClick}
-      handlePause={handlePauseClick} activeSong={activeSong}
-      isPlaying={isPlaying}/>
-  </div>
-);
+
+    {
+      !artistId
+        ? (
+          <PlayPause
+            song={song} handlePlay={handlePlayClick}
+            handlePause={handlePauseClick} activeSong={activeSong}
+            isPlaying={isPlaying}/>)
+        :
+        null
+    }
+
+  </div>;
+};
 
 const TopPlay = () => {
   const dispatch = useDispatch();
@@ -75,12 +101,16 @@ const TopPlay = () => {
     dispatch(playPause(false));
   };
 
+  if (isFetching){
+    return null
+  }
+
   return (
     <div
       ref={divRef}
-      className={'transition-all pt-4 duration-1000 xl:ml-6 ml-0 xl:mb:0 mb-6 flex-1 xl:max-w-[500px] ' +
+      className={'transition-all pt-5 duration-1000 xl:ml-6 ml-0 xl:mb:0 mb-6 flex-1 xl:max-w-[700px] ' +
         ' flex flex-col ' + `${isFetching ? 'opacity-0' : 'opacity-100'}`}>
-      <div className="w-full flex flex-col">
+      <div className="w-full pr-4 flex flex-col">
         <div className={'flex flex-row justify-between items-center'}>
           <h2 className={'text-white font-bold text-2xl'}>Top Charts</h2>
           <Link to={'top-charts'}>
@@ -113,7 +143,7 @@ const TopPlay = () => {
           centeredSlides
           centeredSlidesBounds
           modules={[FreeMode]}
-          className={'mt-4'}
+          className={'mt-4 overflo'}
         >
           {topPlays?.map((song, index) => (
             <SwiperSlide
